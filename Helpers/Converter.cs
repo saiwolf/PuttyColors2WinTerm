@@ -1,5 +1,4 @@
-﻿using System.Drawing;
-using PuttyColors2WinTerm.Colors;
+﻿using PuttyColors2WinTerm.Colors;
 
 namespace PuttyColors2WinTerm.Helpers
 {

@@ -2,7 +2,7 @@
   "profiles": {
     "PuttyColors2WinTerm": {
       "commandName": "Project",
-      "commandLineArgs": "-s \"Default%20Settings\""
+      "commandLineArgs": "-v"
     }
   }
 }
