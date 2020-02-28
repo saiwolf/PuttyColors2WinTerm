@@ -9,7 +9,7 @@ namespace PuttyColors2WinTerm
 {
     public static class Output
     {
-        private static string ToJson(RegistryColors regColors)
+        public static string ToJson(RegistryColors regColors)
         {
             var jsonOptions = new JsonSerializerOptions
             {
@@ -19,11 +19,27 @@ namespace PuttyColors2WinTerm
 
             WinTerminalScheme scheme = new WinTerminalScheme
             {
-                Black = Converter.RGB2Hex(regColors.ANSIBlack),
-                BrightBlack = Converter.RGB2Hex(regColors.ANSIBlackBold)
+                Background = Converter.RGB2Hex(regColors.DefaultBackground),
+                Foreground = Converter.RGB2Hex(regColors.DefaultForeground),
+                Black = Converter.RGB2Hex(regColors.ANSIBlack),                
+                Blue = Converter.RGB2Hex(regColors.ANSIBlue),
+                BrightBlack = Converter.RGB2Hex(regColors.ANSIBlackBold),
+                BrightBlue = Converter.RGB2Hex(regColors.ANSIBlueBold),
+                BrightCyan = Converter.RGB2Hex(regColors.ANSICyanBold),
+                BrightGreen = Converter.RGB2Hex(regColors.ANSIGreenBold),
+                BrightPurple = Converter.RGB2Hex(regColors.ANSIMagentaBold),
+                BrightRed = Converter.RGB2Hex(regColors.ANSIRedBold),
+                BrightWhite = Converter.RGB2Hex(regColors.ANSIWhiteBold),
+                BrightYellow = Converter.RGB2Hex(regColors.ANSIYellowBold),
+                Cyan = Converter.RGB2Hex(regColors.ANSICyan),
+                Green = Converter.RGB2Hex(regColors.ANSIGreen),
+                Purple = Converter.RGB2Hex(regColors.ANSIMagenta),
+                Red = Converter.RGB2Hex(regColors.ANSIRed),
+                White = Converter.RGB2Hex(regColors.ANSIWhite),
+                Yellow = Converter.RGB2Hex(regColors.ANSIYellow)
             };
 
-
+            return JsonSerializer.Serialize(scheme, jsonOptions);
         }
     }
 }

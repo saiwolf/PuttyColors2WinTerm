@@ -16,6 +16,12 @@ namespace PuttyColors2WinTerm
             HelpText = "puTTY session to convert.")]
         public string Session { get; set; }
 
+        [Option('n', "scheme-name",
+            Required = false,
+            Default = "Default Scheme",
+            HelpText = "Value of 'name' JSON attribute in output.")]
+        public string SchemeName { get; set; }
+
         // Not in use yet.
         [Option('f', "file",
             Required = false,

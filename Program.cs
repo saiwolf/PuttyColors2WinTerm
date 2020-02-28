@@ -14,6 +14,7 @@ namespace PuttyColors2WinTerm
     {
         public static string Session;
         public static LoggingLevelSwitch LogLevelSwitch { get; set; }
+        public static string SchemeName { get; set; }
     }
 
     class Program
@@ -38,7 +39,14 @@ namespace PuttyColors2WinTerm
 
                 Log.Information("Starting application...");
 
-                RegistryColors regColor = GetValues.FromWin32Registry();                
+                RegistryColors regColor = GetValues.FromWin32Registry();
+
+                string jsonOutput = Output.ToJson(regColor);
+
+                if (string.IsNullOrEmpty(jsonOutput) || string.IsNullOrWhiteSpace(jsonOutput))
+                    throw new Exception("No JSON Produced. Exiting.");
+
+                Console.WriteLine(jsonOutput);
             }
             catch (Exception ex)
             {
@@ -64,9 +72,24 @@ namespace PuttyColors2WinTerm
             StringBuilder errorString = new StringBuilder();
             foreach(var err in errs)
             {
-                errorString.Append($"{err.Tag}: {err.ToString()} ");
-            }
-            throw new Exception($"Error processing command line...: {errorString}");            
+                if(err.Tag == ErrorType.HelpRequestedError)
+                {
+                    Environment.Exit(0);
+                }
+                else if (err.Tag == ErrorType.VersionRequestedError)
+                {
+                    Environment.Exit(0);
+                }
+                else if (err.Tag == ErrorType.UnknownOptionError)
+                {
+                    Environment.Exit(0);
+                }
+                else
+                {
+                    errorString.Append($"{err.Tag}: {err.ToString()} ");
+                    throw new Exception($"Error processing command line...: {errorString}");
+                }
+            }                        
         }
     }
 }

@@ -37,6 +37,9 @@ namespace PuttyColors2WinTerm.WinTerminal
         [JsonPropertyName("cyan")]
         public string Cyan { get; set; }
 
+        [JsonPropertyName("background")]
+        public string Background { get; set; }
+
         [JsonPropertyName("foreground")]
         public string Foreground { get; set; }
 
