@@ -19,7 +19,7 @@ namespace PuttyColors2WinTerm
         [Option('n', "scheme-name",
             Required = false,
             Default = "Default Scheme",
-            HelpText = "Value of 'name' JSON attribute in output.")]
+            HelpText = "Value of `name` JSON attribute in output.")]
         public string SchemeName { get; set; }
 
         // Not in use yet.

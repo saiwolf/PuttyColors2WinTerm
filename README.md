@@ -10,6 +10,21 @@ A simple [.Net Core 3.1](https://github.com/dotnet/core) console program that do
 
 It converts PuTTY Session Colors from the Windows Registry (more sources planned!) into a JSON structure that you can easily paste into your Windows Terminal [`profiles.json`](https://github.com/microsoft/terminal/blob/master/doc/cascadia/SettingsSchema.md) under [`schemes`](https://github.com/microsoft/terminal/blob/master/doc/cascadia/SettingsSchema.md#schemes).
 
+## Usage
+Run `PuttyColors2WinTerm.exe --help`:
+
+```cmd
+  -v, --verbose        (Default: false) Turn on verbose output.
+
+  -s, --session        (Default: Default%20Settings) puTTY session to convert.
+
+  -n, --scheme-name    (Default: Default Scheme) Value of `name` JSON attribute in output.
+
+  --help               Display this help screen.
+
+  --version            Display version information.
+```
+
 ## Software Used
 * [.Net 3.1](https://dotnet.microsoft.com/) - A free, cross-platform, open source developer platform for building many different types of applications.
 * [Serilog](https://github.com/serilog/serilog) - Simple .NET logging with fully-structured events.
