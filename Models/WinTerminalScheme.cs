@@ -2,6 +2,10 @@
 
 namespace PuttyColors2WinTerm.WinTerminal
 {
+    /// <summary>
+    /// A C# Class represting the JSON config values of a
+    /// Windows Terminal profile color scheme.
+    /// </summary>
     public class WinTerminalScheme
     {
         [JsonPropertyName("black")]

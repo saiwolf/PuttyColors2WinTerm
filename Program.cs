@@ -12,9 +12,11 @@ namespace PuttyColors2WinTerm
 {
     static class Globals
     {
-        public static string Session;
+        public static string Session { get; set; } = string.Empty;
         public static LoggingLevelSwitch LogLevelSwitch { get; set; }
-        public static string SchemeName { get; set; }
+        public static string SchemeName { get; set; } = string.Empty;
+        public static string RegExportFile { get; set; } = string.Empty;
+        public static bool UseRegFile { get; set; } = false;
     }
 
     class Program
@@ -41,7 +43,16 @@ namespace PuttyColors2WinTerm
 
                 Log.Information("Starting application...");
 
-                PuttyColors puttyColors = GetValues.FromWin32Registry();
+                PuttyColors puttyColors = new PuttyColors();
+
+                if(Globals.UseRegFile)
+                {
+                    puttyColors = GetValues.FromRegFile();
+                }
+                else
+                {
+                    puttyColors = GetValues.FromWin32Registry();
+                }
 
                 string jsonOutput = Output.ToJson(puttyColors);
 
@@ -52,7 +63,11 @@ namespace PuttyColors2WinTerm
             }
             catch (Exception ex)
             {
-                Log.Fatal(ex, $"A fatal error occurred: ");
+#if DEBUG
+                Log.Fatal(ex, $"A fatal error occurred...");
+#else
+                Log.Fatal($"A fatal error occurred... {ex.Message}");
+#endif
                 Log.CloseAndFlush();
                 Environment.Exit(-1);
             }
@@ -66,10 +81,16 @@ namespace PuttyColors2WinTerm
                 Log.Verbose("Verbose logging has been enabled...");
             }
 
+            if(!string.IsNullOrEmpty(opts.RegExportFile))
+            {
+                Globals.UseRegFile = true;
+                Globals.RegExportFile = opts.RegExportFile;
+                Log.Verbose("Importing from Registry File...");
+            }
+
             Globals.Session = opts.Session;
 
-            Globals.SchemeName = string.IsNullOrEmpty(opts.SchemeName) ? "Default Scheme" : opts.SchemeName;
-
+            Globals.SchemeName = string.IsNullOrEmpty(opts.SchemeName) ? "Default Scheme" : opts.SchemeName;            
         }
         static void HandleParseError(IEnumerable<Error> errs)
         {

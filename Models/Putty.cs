@@ -2,6 +2,10 @@
 
 namespace PuttyColors2WinTerm.Putty
 {
+    /// <summary>
+    /// Class representation of PuTTY Color Settings.
+    /// These are stored in the settings file or registry as R,G,B values.
+    /// </summary>
     public class PuttyColors
     {
         public RGBColor DefaultForeground { get; set; }

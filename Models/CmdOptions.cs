@@ -2,6 +2,9 @@
 
 namespace PuttyColors2WinTerm
 {
+    /// <summary>
+    /// Options class for CommandLineParser.
+    /// </summary>
     public class CmdOptions
     {
         [Option('v', "verbose",
@@ -21,12 +24,10 @@ namespace PuttyColors2WinTerm
             Default = "Default Scheme",
             HelpText = "Value of `name` JSON attribute in output.")]
         public string SchemeName { get; set; }
-
-        // Not in use yet.
-        [Option('f', "file",
+        
+        [Option('r', "reg-file",
             Required = false,
-            Hidden = true,
-            HelpText = "Output JSON to file instead of STDIN.")]
-        public string JsonFile { get; set; }
+            HelpText = "Import a Registry File (.reg) for conversion instead of searching for User Settings.")]
+        public string RegExportFile { get; set; }
     }
 }

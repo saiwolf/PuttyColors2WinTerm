@@ -5,16 +5,34 @@ using System.Text.Json;
 
 namespace PuttyColors2WinTerm
 {
+    /// <summary>
+    /// Exactly what it says on the tin.
+    /// </summary>
     public static class Output
     {
+        /// <summary>
+        /// Converts an <see cref="PuttyColors"/> instance to serialized Json compliant
+        /// with a Windows Terminal Configuration.
+        /// </summary>
+        /// <param name="puttyColors">The <see cref="PuttyColors"/> instance to convert.</param>
+        /// <returns>A serialized JSON string compliant with a Windows Terminal Configuration.</returns>
         public static string ToJson(PuttyColors puttyColors)
         {
+            // Setting some default options for JSON Serialization.
             var jsonOptions = new JsonSerializerOptions
             {
                 PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
                 WriteIndented = true
             };
 
+            //
+            // Mapping between color schemes.
+            // PuTTY's RGB values are converted into HTML compliant Hex colors
+            // and are assigned to their proper Windows Terminal Counterparts.
+            //
+            // NOTE: PuTTY's Magenta is mapped to Windows Terminal's 'Purple'
+            // on purpose.
+            //
             WinTerminalScheme scheme = new WinTerminalScheme
             {
                 Name = Globals.SchemeName,
@@ -38,6 +56,7 @@ namespace PuttyColors2WinTerm
                 Yellow = Converter.RGB2Hex(puttyColors.ANSIYellow)
             };
 
+            // Turn the C# class into a serialized Json string and return it.
             return JsonSerializer.Serialize(scheme, jsonOptions);
         }
     }
