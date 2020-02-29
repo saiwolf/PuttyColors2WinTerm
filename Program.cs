@@ -21,8 +21,10 @@ namespace PuttyColors2WinTerm
     {
         static void Main(string[] args)
         {
-            Globals.LogLevelSwitch = new LoggingLevelSwitch();
-            Globals.LogLevelSwitch.MinimumLevel = LogEventLevel.Warning;
+            Globals.LogLevelSwitch = new LoggingLevelSwitch
+            {
+                MinimumLevel = LogEventLevel.Warning
+            };
 
             // Setting up the Logger...
             Log.Logger = new LoggerConfiguration()
@@ -39,9 +41,9 @@ namespace PuttyColors2WinTerm
 
                 Log.Information("Starting application...");
 
-                RegistryColors regColor = GetValues.FromWin32Registry();
+                PuttyColors puttyColors = GetValues.FromWin32Registry();
 
-                string jsonOutput = Output.ToJson(regColor);
+                string jsonOutput = Output.ToJson(puttyColors);
 
                 if (string.IsNullOrEmpty(jsonOutput) || string.IsNullOrWhiteSpace(jsonOutput))
                     throw new Exception("No JSON Produced. Exiting.");
@@ -66,28 +68,28 @@ namespace PuttyColors2WinTerm
 
             Globals.Session = opts.Session;
 
+            Globals.SchemeName = string.IsNullOrEmpty(opts.SchemeName) ? "Default Scheme" : opts.SchemeName;
+
         }
         static void HandleParseError(IEnumerable<Error> errs)
         {
             StringBuilder errorString = new StringBuilder();
             foreach(var err in errs)
             {
-                if(err.Tag == ErrorType.HelpRequestedError)
+                switch (err.Tag)
                 {
-                    Environment.Exit(0);
-                }
-                else if (err.Tag == ErrorType.VersionRequestedError)
-                {
-                    Environment.Exit(0);
-                }
-                else if (err.Tag == ErrorType.UnknownOptionError)
-                {
-                    Environment.Exit(0);
-                }
-                else
-                {
-                    errorString.Append($"{err.Tag}: {err.ToString()} ");
-                    throw new Exception($"Error processing command line...: {errorString}");
+                    case ErrorType.HelpRequestedError:
+                        Environment.Exit(0);
+                        break;
+                    case ErrorType.VersionRequestedError:
+                        Environment.Exit(0);
+                        break;
+                    case ErrorType.UnknownOptionError:
+                        Environment.Exit(-1);
+                        break;
+                    default:
+                        errorString.Append($"{err.Tag}: {err.ToString()} ");
+                        throw new Exception($"Error processing command line...: {errorString}");
                 }
             }                        
         }

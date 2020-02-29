@@ -2,7 +2,7 @@
 
 namespace PuttyColors2WinTerm.Putty
 {
-    public class RegistryColors
+    public class PuttyColors
     {
         public RGBColor DefaultForeground { get; set; }
         public RGBColor DefaultForegroundBold { get; set; }

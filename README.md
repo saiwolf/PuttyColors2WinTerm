@@ -27,7 +27,9 @@ Run `PuttyColors2WinTerm.exe --help`:
 
 ## Software Used
 * [.Net 3.1](https://dotnet.microsoft.com/) - A free, cross-platform, open source developer platform for building many different types of applications.
+    * [Microsoft.Win32.Registry](https://github.com/dotnet/corefx) - Provides support for accessing and modifying the Windows Registry.
+    * [System.Text.Json](https://docs.microsoft.com/en-us/dotnet/standard/serialization/system-text-json-overview) - Replaces [Newtonsoft.Json](https://www.newtonsoft.com/json) in .Net 3x. Lightweight and generally faster.
 * [Serilog](https://github.com/serilog/serilog) - Simple .NET logging with fully-structured events.
 	* [Serilog.Sinks.Console](https://github.com/serilog/serilog-sinks-console) - Write log events to System.Console as text or JSON, with ANSI theme support.
 * [CommandLineParser](https://github.com/commandlineparser/commandline) - Terse syntax C# command line parser for .NET.
-* [Microsoft.Win32.Registry](https://github.com/dotnet/corefx) - Provides support for accessing and modifying the Windows Registry.
+

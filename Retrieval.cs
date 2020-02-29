@@ -11,10 +11,10 @@ namespace PuttyColors2WinTerm.Retrieval
     {
         const string regPuttyKey = @"Software\SimonTatham\PuTTY\Sessions\";
 
-        public static RegistryColors FromWin32Registry()
+        public static PuttyColors FromWin32Registry()
         {
             Dictionary<string, string> colorList = new Dictionary<string, string>();
-            RegistryColors regColors = new RegistryColors();            
+            PuttyColors regColors = new PuttyColors();            
 
             Log.Verbose($"PuTTY Key: HKEY_CURRENT_USER\\{regPuttyKey + Globals.Session}");
 
