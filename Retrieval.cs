@@ -1,6 +1,5 @@
 ﻿using Microsoft.Win32;
 using PuttyColors2WinTerm.Colors;
-using PuttyColors2WinTerm.Helpers;
 using PuttyColors2WinTerm.Putty;
 using RegFileParser;
 using Serilog;

@@ -1,5 +1,4 @@
 ﻿using CommandLine;
-using PuttyColors2WinTerm.Helpers;
 using PuttyColors2WinTerm.Putty;
 using PuttyColors2WinTerm.Retrieval;
 using Serilog;
