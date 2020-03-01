@@ -43,16 +43,16 @@ namespace PuttyColors2WinTerm.Retrieval
                     switch (color.Key)
                     {
                         case "Colour0":
-                            puttyColors.DefaultBackground = new RGBColor(r, g, b);
-                            break;
-                        case "Colour1":
-                            puttyColors.DefaultBackgroundBold = new RGBColor(r, g, b);
-                            break;
-                        case "Colour2":
                             puttyColors.DefaultForeground = new RGBColor(r, g, b);
                             break;
-                        case "Colour3":
+                        case "Colour1":
                             puttyColors.DefaultForegroundBold = new RGBColor(r, g, b);
+                            break;
+                        case "Colour2":
+                            puttyColors.DefaultBackground = new RGBColor(r, g, b);
+                            break;
+                        case "Colour3":
+                            puttyColors.DefaultBackgroundBold = new RGBColor(r, g, b);
                             break;
                         case "Colour4":
                             puttyColors.CursorText = new RGBColor(r, g, b);
