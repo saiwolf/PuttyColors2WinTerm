@@ -1,5 +1,6 @@
 ﻿using Microsoft.Win32;
 using PuttyColors2WinTerm.Colors;
+using PuttyColors2WinTerm.Helpers;
 using PuttyColors2WinTerm.Putty;
 using RegFileParser;
 using Serilog;
@@ -20,7 +21,7 @@ namespace PuttyColors2WinTerm.Retrieval
         /// This may become dynamic in future builds as a command line option.
         /// </summary>
         const string regPuttyKey = @"Software\SimonTatham\PuTTY\Sessions\";
-
+        
         /// <summary>
         /// Maps the raw RGB settings to an <see cref="PuttyColors"/> instance.
         /// </summary>
@@ -117,9 +118,10 @@ namespace PuttyColors2WinTerm.Retrieval
             }
             else
             {
-                throw new Exception("Failed to retrieve color list from registry export file.");
+                Log.Error("Parameter: `colorList` does not contain any values to map. Returning Default PuTTY colors.");
+                return Globals.DefaultPuttyColors;
             }
-        }
+        }        
 
         /// <summary>
         /// Retrieves PuTTY color settings from the Windows Registry and maps them to
@@ -128,32 +130,39 @@ namespace PuttyColors2WinTerm.Retrieval
         /// <returns>An initialized <see cref="PuttyColors"/> instance.</returns>
         public static PuttyColors FromWin32Registry()
         {
-            Dictionary<string, string> colorList = new Dictionary<string, string>();
-            PuttyColors puttyColors = new PuttyColors();            
-
-            Log.Verbose($"PuTTY Key: HKEY_CURRENT_USER\\{regPuttyKey + Globals.Session}");
-
-            using (RegistryKey key = Registry.CurrentUser.OpenSubKey(regPuttyKey + Globals.Session))
+            if (Helpers.OperatingSystem.IsWindows())
             {
-                if (key != null)
+                Dictionary<string, string> colorList = new Dictionary<string, string>();
+                PuttyColors puttyColors = new PuttyColors();
+
+                Log.Verbose($"PuTTY Key: HKEY_CURRENT_USER\\{regPuttyKey + Globals.Session}");
+
+                using (RegistryKey key = Registry.CurrentUser.OpenSubKey(regPuttyKey + Globals.Session))
                 {
-                    int i;
-                    for (i = 0; i <= 21; i++)
+                    if (key != null)
                     {
-                        var name = $"Colour{i}";
-                        var value = Convert.ToString(key.GetValue(name));
-                        colorList.Add(name, value);
+                        int i;
+                        for (i = 0; i <= 21; i++)
+                        {
+                            var name = $"Colour{i}";
+                            var value = Convert.ToString(key.GetValue(name));
+                            colorList.Add(name, value);
+                        }
+
+                        puttyColors = MapRegColor(colorList);
                     }
+                    else
+                    {
+                        throw new Exception($"Could not open PuTTY Registry Key for session: {Globals.Session}!");
+                    }
+                }
 
-                    puttyColors = MapRegColor(colorList);
-                }
-                else
-                {                    
-                    throw new Exception($"Could not open PuTTY Registry Key for session: {Globals.Session}!");
-                }
+                return puttyColors;
             }
-
-            return puttyColors;
+            else
+            {                
+                throw new InvalidOperationException($"`.FromWin32Registry()` can only execute on Windows systems.");
+            }
         }
 
         /// <summary>
@@ -213,6 +222,52 @@ namespace PuttyColors2WinTerm.Retrieval
             else
             {
                 throw new IOException($"Registry Export File could not be opened. {Globals.RegExportFile}");
+            }
+        }
+
+        /// <summary>
+        /// <para>
+        /// Retrieves PuTTY color settings from a putty sessions file and maps them to
+        /// an <see cref="PuttyColors"/> instance.
+        /// </para>
+        /// <para>
+        /// Only applicable for *NIX systems.
+        /// </para>
+        /// </summary>
+        /// <returns>An initialized <see cref="PuttyColors"/> instance.</returns>
+        public static PuttyColors FromNixFile()
+        {
+            if (!Helpers.OperatingSystem.IsWindows())
+            {
+                Dictionary<string, string> colorList = new Dictionary<string, string>();
+                PuttyColors puttyColors = new PuttyColors();
+                string filePath = $"{Globals.HomePath}/.putty/sessions/{Globals.Session}";
+
+                Log.Verbose($"PuTTY File: `{filePath}`");
+
+                if (!File.Exists(filePath))
+                    throw new FileNotFoundException($"The file: {filePath} was not found.");
+
+                string[] fileLines = File.ReadAllLines(filePath);
+
+                foreach (string line in fileLines)
+                {
+                    if(line.StartsWith("Colour"))
+                    {
+                        string[] values = line.Split('=');
+                        colorList.Add(values[0], values[1]);
+                    }
+                    else
+                    {
+                        continue;
+                    }
+                }
+
+                return MapRegColor(colorList);
+            }
+            else
+            {
+                throw new InvalidOperationException($"`.FromNixFile()` is only applicable to *NIX systems.");
             }
         }
     }

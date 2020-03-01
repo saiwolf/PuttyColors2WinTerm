@@ -1,4 +1,5 @@
 ﻿using CommandLine;
+using PuttyColors2WinTerm.Helpers;
 using PuttyColors2WinTerm.Putty;
 using PuttyColors2WinTerm.Retrieval;
 using Serilog;
@@ -10,15 +11,6 @@ using System.Text;
 
 namespace PuttyColors2WinTerm
 {
-    static class Globals
-    {
-        public static string Session { get; set; } = string.Empty;
-        public static LoggingLevelSwitch LogLevelSwitch { get; set; }
-        public static string SchemeName { get; set; } = string.Empty;
-        public static string RegExportFile { get; set; } = string.Empty;
-        public static bool UseRegFile { get; set; } = false;
-    }
-
     class Program
     {
         static void Main(string[] args)
@@ -51,7 +43,14 @@ namespace PuttyColors2WinTerm
                 }
                 else
                 {
-                    puttyColors = GetValues.FromWin32Registry();
+                    if (Helpers.OperatingSystem.IsWindows())
+                    {
+                        puttyColors = GetValues.FromWin32Registry();
+                    }
+                    else
+                    {
+                        puttyColors = GetValues.FromNixFile();
+                    }
                 }
 
                 string jsonOutput = Output.ToJson(puttyColors);
