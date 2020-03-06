@@ -36,11 +36,16 @@ namespace PuttyColors2WinTerm
         /// Boolean controlling whether or not to import .reg file for conversion.
         /// </summary>
         public static bool UseRegFile { get; set; } = false;
+
+        /// <summary>
+        /// Boolean controlling using <see cref="DefaultPuttyColors" /> as colors to convert./>
+        /// </summary>
+        public static bool UseDefaultColors { get; set; } = false;
         /// <summary>
         /// A fully initialized <see cref="PuttyColors"/> instance with PuTTY's default terminal colors.
         /// </summary>
         public static PuttyColors DefaultPuttyColors = new PuttyColors
-        {
+        {            
             DefaultForeground       = new RGBColor(187, 187, 187),
             DefaultForegroundBold   = new RGBColor(255, 255, 255),
             DefaultBackground       = new RGBColor(0, 0, 0),

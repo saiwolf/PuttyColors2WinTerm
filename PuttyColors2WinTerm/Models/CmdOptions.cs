@@ -7,6 +7,12 @@ namespace PuttyColors2WinTerm
     /// </summary>
     public class CmdOptions
     {
+        [Option('d', "default-colors",
+            Required = false,
+            Default = false,
+            HelpText = "Output PuTTY's default color scheme.")]
+        public bool DefaultColors { get; set; }
+
         [Option('v', "verbose",
             Required = false,
             Default = false,

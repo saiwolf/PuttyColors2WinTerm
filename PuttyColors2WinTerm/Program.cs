@@ -36,7 +36,11 @@ namespace PuttyColors2WinTerm
 
                 PuttyColors puttyColors = new PuttyColors();
 
-                if(Globals.UseRegFile)
+                if (Globals.UseDefaultColors)
+                {
+                    puttyColors = Globals.DefaultPuttyColors;
+                }
+                else if(Globals.UseRegFile)
                 {
                     puttyColors = GetValues.FromRegFile();
                 }
@@ -77,6 +81,12 @@ namespace PuttyColors2WinTerm
             {
                 Globals.LogLevelSwitch.MinimumLevel = LogEventLevel.Verbose;
                 Log.Verbose("Verbose logging has been enabled...");
+            }
+
+            if (opts.DefaultColors)
+            {
+                Log.Verbose("Default Colors selected...");
+                Globals.UseDefaultColors = true;
             }
 
             if(!string.IsNullOrEmpty(opts.RegExportFile))
