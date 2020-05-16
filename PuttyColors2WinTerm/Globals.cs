@@ -37,6 +37,14 @@ namespace PuttyColors2WinTerm
         /// </summary>
         public static bool UseRegFile { get; set; } = false;
         /// <summary>
+        /// Path to file to write output JSON to.
+        /// </summary>
+        public static string ExportJsonFile { get; set; } = string.Empty;
+        /// <summary>
+        /// Boolean controlling whether or not to export output JSON to a file.
+        /// </summary>
+        public static bool UseExportFile { get; set; }
+        /// <summary>
         /// A fully initialized <see cref="PuttyColors"/> instance with PuTTY's default terminal colors.
         /// </summary>
         public static PuttyColors DefaultPuttyColors = new PuttyColors

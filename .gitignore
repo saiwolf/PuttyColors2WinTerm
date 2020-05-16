@@ -16,6 +16,11 @@
 # Mono auto generated files
 mono_crash.*
 
+# Command files
+*.cmd
+*.ps1
+*.bat
+
 # Build results
 [Dd]ebug/
 [Dd]ebugPublic/

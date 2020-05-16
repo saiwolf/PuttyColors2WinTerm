@@ -1,7 +1,21 @@
-﻿using System.Text.Json.Serialization;
+﻿using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace PuttyColors2WinTerm.WinTerminal
 {
+    /// <summary>
+    /// Meta-class for generating a proper 'schemes' JSON object.
+    /// </summary>
+    public class WinTerminalSchemes
+    {
+        public WinTerminalSchemes()
+        {
+            Schemes = new List<WinTerminalScheme>();
+        }
+
+        [JsonPropertyName("schemes")]
+        public IList<WinTerminalScheme> Schemes { get; set; }
+    }
     /// <summary>
     /// A C# Class represting the JSON config values of a
     /// Windows Terminal profile color scheme.

@@ -52,12 +52,16 @@ namespace PuttyColors2WinTerm
                     }
                 }
 
-                string jsonOutput = Output.ToJson(puttyColors);
+                if(Globals.UseExportFile)
+                {
+                    Output.WriteJsonToFile(puttyColors);
+                }
+                else
+                {
+                    Output.WriteJsonToConsole(puttyColors);
+                }
 
-                if (string.IsNullOrEmpty(jsonOutput) || string.IsNullOrWhiteSpace(jsonOutput))
-                    throw new Exception("No JSON Produced. Exiting.");
-
-                Console.WriteLine(jsonOutput);
+                Log.Verbose("Application shuting down...");
             }
             catch (Exception ex)
             {
@@ -84,6 +88,13 @@ namespace PuttyColors2WinTerm
                 Globals.UseRegFile = true;
                 Globals.RegExportFile = opts.RegExportFile;
                 Log.Verbose("Importing from Registry File...");
+            }
+
+            if(!string.IsNullOrEmpty(opts.JsonExportFile))
+            {
+                Globals.UseExportFile = true;
+                Globals.ExportJsonFile = opts.JsonExportFile;
+                Log.Verbose($"Exporting to JSON file: {opts.JsonExportFile}");
             }
 
             Globals.Session = opts.Session;

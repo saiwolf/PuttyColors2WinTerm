@@ -29,5 +29,10 @@ namespace PuttyColors2WinTerm
             Required = false,
             HelpText = "Import a Registry File (.reg) for conversion instead of searching for User Settings.")]
         public string RegExportFile { get; set; }
+
+        [Option('e', "export-json",
+            Required = false,
+            HelpText = "Write output JSON to specified file.")]
+        public string JsonExportFile { get; set; }
     }
 }
