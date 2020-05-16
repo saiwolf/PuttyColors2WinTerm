@@ -76,40 +76,58 @@ namespace PuttyColors2WinTerm
             return JsonSerializer.Serialize(schemes, jsonOptions);
         }
 
+        /// <summary>
+        /// <para>Method that writes JSON output to a file.</para>
+        /// <para>Only invoked if <see cref="Globals.UseExportFile"/> is <c>true</c>.</para>
+        /// </summary>
+        /// <param name="puttyColors">Populated <see cref="PuttyColors"/></param>
         public static void WriteJsonToFile(PuttyColors puttyColors)
         {
+            // Generate JSON output. If the string is blank/null, throw an exception.
             string jsonOutput = GenerateJson(puttyColors);
             if (string.IsNullOrEmpty(jsonOutput) || string.IsNullOrWhiteSpace(jsonOutput))
                 throw new Exception("No JSON Produced. Exiting.");
 
             try
             {
+                // Grab the full file path from string `Globals.ExportJsonFile`.
                 var filePath = Path.GetFullPath(Globals.ExportJsonFile);
 
+                // Check if the path leading to the export file exists.
+                // If not, throw an IOException with detailed output.
                 if (!Directory.Exists(Path.GetDirectoryName(filePath)))
                 {
                     throw new IOException($"Directory doesn't exist: {filePath}");
                 }               
 
+                // If the file specified by `filePath` exists already, prompt
+                // the user to confirm overwrite instead of blindly overwriting.
                 if(File.Exists(filePath))
                 {
+                    // Show a warning to the user that the file they specified already exists.
                     Log.Warning($"Warning! File: {filePath} exists!");
+                    // Ask permission to overwrite said file.
                     var overwrite = ConsoleUtils.Confirm("Do you want to overwrite?");
                     
+                    // If they select 'n'...
                     if (!overwrite)
                     {
+                        // If the user denies the overwrite, then we print to Console and exit.
                         Log.Verbose("Overwrite denied. Printing to Console Instead...");
                         WriteJsonToConsole(puttyColors);
                         return;
                     }                    
                 }
 
+                // If `filePath` does not exist, then create it.
                 File.WriteAllText(filePath, jsonOutput);
 
+                // Report that the file was written.
                 Log.Verbose($"JSON exported to file: {filePath}");
             }
             catch (Exception)
             {
+                // If any exception occurs, bubble it up to the main program error handler.
                 throw;
             }
         }
@@ -120,10 +138,12 @@ namespace PuttyColors2WinTerm
         /// <param name="puttyColors">Fully populated <see cref="PuttyColors"/></param>
         public static void WriteJsonToConsole(PuttyColors puttyColors)
         {
+            // Generate JSON output. If the string is blank/null, throw an exception.
             string jsonOutput = GenerateJson(puttyColors);
             if (string.IsNullOrEmpty(jsonOutput) || string.IsNullOrWhiteSpace(jsonOutput))
                 throw new Exception("No JSON Produced. Exiting.");
 
+            // Write JSON output to the console and exit.
             Console.WriteLine(jsonOutput);
         }
     }
