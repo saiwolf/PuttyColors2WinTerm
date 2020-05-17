@@ -20,7 +20,7 @@ namespace PuttyColors2WinTerm
         /// </summary>
         /// <param name="puttyColors">The <see cref="PuttyColors"/> instance to convert.</param>
         /// <returns>A serialized JSON `schemes` object compliant with a Windows Terminal Configuration.</returns>
-        private static string GenerateJson(PuttyColors puttyColors)
+        public static string GenerateJson(PuttyColors puttyColors)
         {
             // Setting some default options for JSON Serialization.
             var jsonOptions = new JsonSerializerOptions
