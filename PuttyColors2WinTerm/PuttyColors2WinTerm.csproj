@@ -14,8 +14,10 @@
     <PackageProjectUrl>https://github.com/saiwolf/PuttyColors2WinTerm</PackageProjectUrl>
     <StartupObject>PuttyColors2WinTerm.Program</StartupObject>
     <Nullable>disable</Nullable>
+	<RuntimeIdentifiers>win-x64;linux-x64;linux-arm;linux-arm64;osx-x64</RuntimeIdentifiers>
   </PropertyGroup>
-
+  <Import Project="runtime.targets" />
+	
   <ItemGroup>
     <PackageReference Include="CommandLineParser" Version="2.8.0" />
     <PackageReference Include="Microsoft.Win32.Registry" Version="5.0.0" Condition="$([MSBuild]::IsOsPlatform('Windows'))" />
