@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
     <RuntimeIdentifiers>win-x64;win-x86;linux-x64;linux-arm;linux-arm64;osx-x64</RuntimeIdentifiers>
     <Authors>Robert Cato &lt;robertcato015@gmail.com&gt;</Authors>
     <Company />
@@ -12,13 +12,15 @@
     <RepositoryUrl>https://github.com/saiwolf/PuttyColors2WinTerm</RepositoryUrl>
     <RepositoryType>Git</RepositoryType>
     <PackageProjectUrl>https://github.com/saiwolf/PuttyColors2WinTerm</PackageProjectUrl>
+    <StartupObject>PuttyColors2WinTerm.Program</StartupObject>
+    <Nullable>disable</Nullable>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="CommandLineParser" Version="2.7.82" />
-    <PackageReference Include="Microsoft.Win32.Registry" Version="4.7.0" Condition="$([MSBuild]::IsOsPlatform('Windows'))" />
-    <PackageReference Include="Serilog" Version="2.9.0" />
-    <PackageReference Include="Serilog.Sinks.Console" Version="3.1.1" />
+    <PackageReference Include="CommandLineParser" Version="2.8.0" />
+    <PackageReference Include="Microsoft.Win32.Registry" Version="5.0.0" Condition="$([MSBuild]::IsOsPlatform('Windows'))" />
+    <PackageReference Include="Serilog" Version="2.10.0" />
+    <PackageReference Include="Serilog.Sinks.Console" Version="4.0.1" />
   </ItemGroup>
 
   <ItemGroup>

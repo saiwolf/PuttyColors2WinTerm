@@ -11,10 +11,11 @@ namespace PuttyColors2WinTerm
         /// <para>Gets the value of the user's home directory depending on OS.</para>
         /// <para>From: https://stackoverflow.com/questions/1143706/getting-the-path-of-the-home-directory-in-c </para>
         /// </summary>
-        public static string HomePath = (Environment.OSVersion.Platform == PlatformID.Unix ||
-                   Environment.OSVersion.Platform == PlatformID.MacOSX)
-                    ? Environment.GetEnvironmentVariable("HOME")
-                    : Environment.ExpandEnvironmentVariables("%HOMEDRIVE%%HOMEPATH%");
+        public static string HomePath = Environment.OSVersion.Platform switch
+        {            
+            PlatformID.Win32NT => Environment.GetEnvironmentVariable("%HOMEDRIVE%%HOMEPATH%"),
+            _ => Environment.GetEnvironmentVariable("HOME"),
+        };
 
         /// <summary>
         /// Holds PuTTY session to convert.
@@ -23,7 +24,7 @@ namespace PuttyColors2WinTerm
         /// <summary>
         /// Controls logging levels.
         /// </summary>
-        public static LoggingLevelSwitch LogLevelSwitch { get; set; }
+        public static LoggingLevelSwitch? LogLevelSwitch { get; set; }
         /// <summary>
         /// Sets the JSON `name` attribute in the output.
         /// </summary>
