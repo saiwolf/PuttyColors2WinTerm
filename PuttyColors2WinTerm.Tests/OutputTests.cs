@@ -1,8 +1,4 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using PuttyColors2WinTerm;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace PuttyColors2WinTerm.Tests
 {
@@ -15,11 +11,32 @@ namespace PuttyColors2WinTerm.Tests
             Globals.Session = "Default%20Session";
             Globals.SchemeName = "Default Scheme";
             var defaultPuttyColors = Globals.DefaultPuttyColors;
-            string testJSON = "{\r\n  \"black\": \"#000000\",\r\n  \"blue\": \"#0000BB\",\r\n  \"brightBlack\": \"#555555\",\r\n  \"brightBlue\": \"#5555FF\",\r\n  \"brightCyan\": \"#55FFFF\",\r\n  \"brightGreen\": \"#55FF55\",\r\n  \"brightPurple\": \"#FF55FF\",\r\n  \"brightRed\": \"#FF5555\",\r\n  \"brightWhite\": \"#FFFFFF\",\r\n  \"brightYellow\": \"#FFFF55\",\r\n  \"cyan\": \"#00BBBB\",\r\n  \"background\": \"#000000\",\r\n  \"foreground\": \"#BBBBBB\",\r\n  \"green\": \"#00BB00\",\r\n  \"name\": \"Default Scheme\",\r\n  \"purple\": \"#BB00BB\",\r\n  \"red\": \"#BB0000\",\r\n  \"white\": \"#BBBBBB\",\r\n  \"yellow\": \"#BBBB00\"\r\n}";
+            string testJSON = Output.GenerateJson(defaultPuttyColors);
 
-            string outputJSON = Output.GenerateJson(defaultPuttyColors);
+            WinTerminal.WinTerminalSchemes testPOCO = System.Text.Json.JsonSerializer.Deserialize<WinTerminal.WinTerminalSchemes>(testJSON);
             
-            Assert.AreEqual(testJSON, outputJSON);
+            foreach (var scheme in testPOCO.Schemes)
+            {
+                Assert.IsNotNull(scheme.Name);
+                Assert.AreEqual(scheme.Background, Helpers.Converter.RGB2Hex(defaultPuttyColors.DefaultBackground));
+                Assert.AreEqual(scheme.Foreground, Helpers.Converter.RGB2Hex(defaultPuttyColors.DefaultForeground));
+                Assert.AreEqual(scheme.Black, Helpers.Converter.RGB2Hex(defaultPuttyColors.ANSIBlack));
+                Assert.AreEqual(scheme.Blue, Helpers.Converter.RGB2Hex(defaultPuttyColors.ANSIBlue));
+                Assert.AreEqual(scheme.BrightBlack, Helpers.Converter.RGB2Hex(defaultPuttyColors.ANSIBlackBold));
+                Assert.AreEqual(scheme.BrightBlue, Helpers.Converter.RGB2Hex(defaultPuttyColors.ANSIBlueBold));
+                Assert.AreEqual(scheme.BrightCyan, Helpers.Converter.RGB2Hex(defaultPuttyColors.ANSICyanBold));
+                Assert.AreEqual(scheme.BrightGreen, Helpers.Converter.RGB2Hex(defaultPuttyColors.ANSIGreenBold));
+                Assert.AreEqual(scheme.BrightPurple, Helpers.Converter.RGB2Hex(defaultPuttyColors.ANSIMagentaBold));
+                Assert.AreEqual(scheme.BrightRed, Helpers.Converter.RGB2Hex(defaultPuttyColors.ANSIRedBold));
+                Assert.AreEqual(scheme.BrightWhite, Helpers.Converter.RGB2Hex(defaultPuttyColors.ANSIWhiteBold));
+                Assert.AreEqual(scheme.BrightYellow, Helpers.Converter.RGB2Hex(defaultPuttyColors.ANSIYellowBold));
+                Assert.AreEqual(scheme.Cyan, Helpers.Converter.RGB2Hex(defaultPuttyColors.ANSICyan));
+                Assert.AreEqual(scheme.Green, Helpers.Converter.RGB2Hex(defaultPuttyColors.ANSIGreen));
+                Assert.AreEqual(scheme.Purple, Helpers.Converter.RGB2Hex(defaultPuttyColors.ANSIMagenta));
+                Assert.AreEqual(scheme.Red, Helpers.Converter.RGB2Hex(defaultPuttyColors.ANSIRed));
+                Assert.AreEqual(scheme.White, Helpers.Converter.RGB2Hex(defaultPuttyColors.ANSIWhite));
+                Assert.AreEqual(scheme.Yellow, Helpers.Converter.RGB2Hex(defaultPuttyColors.ANSIYellow));
+            }
         }
     }
 }

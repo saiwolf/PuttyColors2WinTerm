@@ -6,6 +6,7 @@ using Serilog;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Runtime.Versioning;
 
 namespace PuttyColors2WinTerm.Retrieval
 {
@@ -127,12 +128,13 @@ namespace PuttyColors2WinTerm.Retrieval
         /// an <see cref="PuttyColors"/> instance.
         /// </summary>
         /// <returns>An initialized <see cref="PuttyColors"/> instance.</returns>
+        [SupportedOSPlatform("Windows")]
         public static PuttyColors FromWin32Registry()
         {
             if (Helpers.OperatingSystem.IsWindows())
             {
-                Dictionary<string, string> colorList = new Dictionary<string, string>();
-                PuttyColors puttyColors = new PuttyColors();
+                Dictionary<string, string> colorList = new();
+                PuttyColors puttyColors = new();
 
                 Log.Verbose($"PuTTY Key: HKEY_CURRENT_USER\\{regPuttyKey + Globals.Session}");
 
@@ -234,6 +236,9 @@ namespace PuttyColors2WinTerm.Retrieval
         /// </para>
         /// </summary>
         /// <returns>An initialized <see cref="PuttyColors"/> instance.</returns>
+        [SupportedOSPlatform("FreeBSD")]
+        [SupportedOSPlatform("Linux")]
+        [SupportedOSPlatform("OSX")]
         public static PuttyColors FromNixFile()
         {
             if (!Helpers.OperatingSystem.IsWindows())

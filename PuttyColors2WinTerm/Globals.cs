@@ -53,7 +53,7 @@ namespace PuttyColors2WinTerm
         /// <summary>
         /// A fully initialized <see cref="PuttyColors"/> instance with PuTTY's default terminal colors.
         /// </summary>
-        public static PuttyColors DefaultPuttyColors = new PuttyColors
+        public static PuttyColors DefaultPuttyColors = new()
         {            
             DefaultForeground       = new RGBColor(187, 187, 187),
             DefaultForegroundBold   = new RGBColor(255, 255, 255),
